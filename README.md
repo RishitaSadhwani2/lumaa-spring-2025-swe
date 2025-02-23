@@ -69,11 +69,16 @@ API Testing: You can also test the backend endpoints using tools like Postman. U
 
 Salary Expectations
 
-My salary expectation is $X,XXX per month. (Please update this with your actual expectation.)
+My salary expectation is $15-$20 per HOUR
 
 Demo Video
 
-A short demo video showcasing the registration, login, and task management functionalities is available here: Click here to view the demo video: https://yourdemo.link
+A short demo video showcasing the registration, login, and task management functionalities is available here: Click here to view the demo video: 
+PART1:
+https://drive.google.com/file/d/1QM_C4IcV0-AqCH6X7dS_Uu9oeXs9hihl/view?usp=sharing
+
+PART2:
+https://drive.google.com/file/d/1URCTDIEkm4vaGryyDd7z9R88IO8qlmVi/view?usp=drive_link
 
 Project Structure
 
@@ -173,3 +178,14 @@ Notes:
 Replace TOKEN_HERE in each command with the actual JWT token you received from the login request.
 You can run these curl commands in your terminal. Alternatively, you may use API testing tools such as Postman to test these endpoints.
 Ensure that your backend server is running on port 5000 before executing these commands.
+EXCEPTIONS FOR 500 INTERNAL SERVER ERROR
+IF USER IS ALREADY REGISTERED THAT CASE ISNT HANDLED so 500 internal error WOULD BE EXPECTED
+Please keep in mind If no task body is given it will throw server error 
+
+
+A short demo video showcasing the registration, login, and task management functionalities is available here: Click here to view the demo video: 
+PART1:
+https://drive.google.com/file/d/1QM_C4IcV0-AqCH6X7dS_Uu9oeXs9hihl/view?usp=sharing
+
+PART2:
+https://drive.google.com/file/d/1URCTDIEkm4vaGryyDd7z9R88IO8qlmVi/view?usp=drive_link
