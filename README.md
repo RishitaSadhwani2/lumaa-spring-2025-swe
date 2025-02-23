@@ -1,119 +1,175 @@
-# Full-Stack Coding Challenge
+Task Management Application
 
-**Deadline**: Sunday, Feb 23th 11:59 pm PST
+This repository contains a full-stack Task Management application with a React + TypeScript frontend and a Node.js (Express) + TypeScript backend. The backend uses MySQL as its database and provides user registration, login (with password hashing and JWT authentication), and full CRUD operations for tasks.
 
----
+Table of Contents
 
-## Overview
+Database Setup
+Environment Variables
+Backend Setup and Run Instructions
+Frontend Setup and Run Instructions
+Testing Notes
+Salary Expectations
+Demo Video
+Project Structure
+Database Setup
 
-Create a “Task Management” application with **React + TypeScript** (frontend), **Node.js** (or **Nest.js**) (backend), and **PostgreSQL** (database). The application should:
+Install and Run MySQL: Ensure you have MySQL installed and running on your system.
 
-1. **Register** (sign up) and **Log in** (sign in) users.
-2. After logging in, allow users to:
-   - **View a list of tasks**.
-   - **Create a new task**.
-   - **Update an existing task** (e.g., mark complete, edit).
-   - **Delete a task**.
+Create the Database: Open your MySQL client (or use the MySQL command-line interface) and execute:
 
-Focus on **correctness**, **functionality**, and **code clarity** rather than visual design.  
-This challenge is intended to be completed within ~3 hours, so keep solutions minimal yet functional.
+CREATE DATABASE taskmanagementappdatabase;
 
----
+Create the Required Tables: Run the following SQL commands to create the users and tasks tables:
 
-## Requirements
+-- Create the "users" table CREATE TABLE IF NOT EXISTS users ( id INT AUTO_INCREMENT PRIMARY KEY, username VARCHAR(50) UNIQUE NOT NULL, password VARCHAR(255) NOT NULL );
 
-### 1. Authentication
+-- Create the "tasks" table CREATE TABLE IF NOT EXISTS tasks ( id INT AUTO_INCREMENT PRIMARY KEY, title VARCHAR(255) NOT NULL, description TEXT, isComplete BOOLEAN DEFAULT false, userId INT, FOREIGN KEY (userId) REFERENCES users(id) );
 
-- **User Model**:
-  - `id`: Primary key
-  - `username`: Unique string
-  - `password`: Hashed string
-- **Endpoints**:
-  - `POST /auth/register` – Create a new user
-  - `POST /auth/login` – Login user, return a token (e.g., JWT)
-- **Secure the Tasks Routes**: Only authenticated users can perform task operations.  
-  - **Password Hashing**: Use `bcrypt` or another hashing library to store passwords securely.
-  - **Token Verification**: Verify the token (JWT) on each request to protected routes.
+Environment Variables
 
-### 2. Backend (Node.js or Nest.js)
+Backend: In the backend folder, create a file named .env and add the following:
 
-- **Tasks CRUD**:  
-  - `GET /tasks` – Retrieve a list of tasks (optionally filtered by user).  
-  - `POST /tasks` – Create a new task.  
-  - `PUT /tasks/:id` – Update a task (e.g., mark as complete, edit text).  
-  - `DELETE /tasks/:id` – Delete a task.
-- **Task Model**:
-  - `id`: Primary key
-  - `title`: string
-  - `description`: string (optional)
-  - `isComplete`: boolean (default `false`)
-  - _(Optional)_ `userId` to link tasks to the user who created them
-- **Database**: PostgreSQL
-  - Provide instructions/migrations to set up:
-    - `users` table (with hashed passwords)
-    - `tasks` table
-- **Setup**:
-  - `npm install` to install dependencies
-  - `npm run start` (or `npm run dev`) to run the server
-  - Document any environment variables (e.g., database connection string, JWT secret)
+PORT=5000 DB_HOST=localhost DB_USER=root DB_PASSWORD=root DB_NAME=taskmanagementappdatabase DB_PORT=3306 JWT_SECRET=your_jwt_secret
 
-### 3. Frontend (React + TypeScript)
+Frontend: In the frontend folder, create a file named .env and add the following:
 
-- **Login / Register**:
-  - Simple forms for **Register** and **Login**.
-  - Store JWT (e.g., in `localStorage`) upon successful login.
-  - If not authenticated, the user should not see the tasks page.
-- **Tasks Page**:
-  - Fetch tasks from `GET /tasks` (including auth token in headers).
-  - Display the list of tasks.
-  - Form to create a new task (`POST /tasks`).
-  - Buttons/fields to update a task (`PUT /tasks/:id`).
-  - Button to delete a task (`DELETE /tasks/:id`).
-- **Navigation**:
-  - Show `Login`/`Register` if not authenticated.
-  - Show `Logout` if authenticated.
-- **Setup**:
-  - `npm install` then `npm start` (or `npm run dev`) to run.
-  - Document how to point the frontend at the backend (e.g., `.env` file, base URL).
+REACT_APP_API_URL=http://localhost:5000
 
----
+Backend Setup and Run Instructions
 
-## Deliverables
+Navigate to the backend folder: cd backend
 
-1. **Fork the Public Repository**: **Fork** this repo into your own GitHub account.
-2. **Implement Your Solution** in the forked repository. Make sure you're README file has:
-   - Steps to set up the database (migrations, environment variables).
-   - How to run the backend.
-   - How to run the frontend.
-   - Any relevant notes on testing.
-   - Salary Expectations per month (Mandatory)
-3. **Short Video Demo**: Provide a link (in a `.md` file in your forked repo) to a brief screen recording showing:
-   - Registering a user
-   - Logging in
-   - Creating, updating, and deleting tasks
-4. **Deadline**: Submissions are due **Sunday, Feb 23th 11:59 pm PST**.
+Install Dependencies: npm install
 
-> **Note**: Please keep your solution minimal. The entire project is intended to be completed in around 3 hours. Focus on core features (registration, login, tasks CRUD) rather than polished UI or extra features.
+Run the Backend Server: For development with auto-reloading: npm run dev Or to run normally: npm start The backend server will start on port 5000 (as specified in your .env file).
 
----
+Frontend Setup and Run Instructions
 
-## Evaluation Criteria
+Navigate to the frontend folder: cd frontend
 
-1. **Functionality**  
-   - Does registration and login work correctly (with password hashing)?
-   - Are tasks protected by authentication?
-   - Does the tasks CRUD flow work end-to-end?
+Install Dependencies: npm install
 
-2. **Code Quality**  
-   - Is the code structured logically and typed in TypeScript?
-   - Are variable/function names descriptive?
+Run the Frontend Application: npm start The React application will launch on http://localhost:3000 and will connect to the backend using the API URL defined in its .env file.
 
-3. **Clarity**  
-   - Is the `README.md` (in your fork) clear and detailed about setup steps?
-   - Easy to run and test?
+Testing Notes
 
-4. **Maintainability**  
-   - Organized logic (controllers/services, etc.)
-   - Minimal hard-coded values
+Registration and Login:
 
-Good luck, and we look forward to your submission!
+Open the application in your browser.
+Navigate to the Register page to create a new account.
+Log in using the registered credentials. Upon successful login, a JWT token will be stored in localStorage.
+Task Management:
+
+After logging in, the Tasks page will display your task list.
+Create a new task using the provided form.
+Update a task (for example, mark it as complete or incomplete) by clicking the corresponding button.
+Delete a task using the Delete button.
+API Testing: You can also test the backend endpoints using tools like Postman. Use /auth/register and /auth/login for authentication, and /tasks for task operations. Make sure to include the JWT token in the Authorization header when testing protected routes.
+
+Salary Expectations
+
+My salary expectation is $X,XXX per month. (Please update this with your actual expectation.)
+
+Demo Video
+
+A short demo video showcasing the registration, login, and task management functionalities is available here: Click here to view the demo video: https://yourdemo.link
+
+Project Structure
+
+After setting up this repository, the folder structure should look like this:
+
+lumaa-spring-2025-swe/ ├─ backend/ // Contains the Node.js (Express) + TypeScript backend code │ ├─ src/ │ │ ├─ controllers/ │ │ │ ├─ authController.ts │ │ │ └─ taskController.ts │ │ ├─ middleware/ │ │ │ └─ authMiddleware.ts │ │ ├─ routes/ │ │ │ ├─ authRoutes.ts │ │ │ └─ taskRoutes.ts │ │ ├─ db.ts │ │ └─ index.ts │ ├─ package.json │ ├─ tsconfig.json │ └─ .env ├─ frontend/ // Contains the React + TypeScript frontend code │ ├─ src/ │ │ ├─ components/ │ │ │ ├─ Login.tsx │ │ │ ├─ Register.tsx │ │ │ └─ Tasks.tsx │ │ ├─ App.tsx │ │ └─ api.ts │ ├─ package.json │ └─ .env └─ README.md
+
+How to Include This README in Your Repository
+
+Open your repository in VS Code:
+
+Open VS Code.
+Go to File → Open Folder... and select the root folder of your cloned repository (e.g., lumaa-spring-2025-swe).
+Create or Open the README.md File:
+
+In the Explorer pane on the left, check if a file named README.md exists.
+If not, right-click on the root folder and select New File, then name it README.md.
+Copy and Paste the Content:
+
+Copy all of the text above.
+Paste it into your README.md file.
+Save the file (File → Save or press Ctrl+S / Command+S).
+Commit and Push the README.md:
+
+Open the integrated terminal in VS Code (View → Terminal).
+Make sure you are in the root directory of your repository.
+Run: git add README.md git commit -m "Add comprehensive README file" git push origin main Your repository on GitHub will now display this updated README file.
+
+
+TESTING INISGHTS
+-if a user shall try to create a task without body application will give 500 internal error since it hasnt been handled as of now.
+End-to-End Testing Instructions
+
+Test Registration
+Endpoint: POST /auth/register
+Sample Request:
+Use the following curl command in your terminal to register a new user:
+
+curl -X POST http://localhost:5000/auth/register -H "Content-Type: application/json" -d '{"username": "testuser", "password": "testpassword"}'
+
+What to Expect:
+You should receive a JSON response containing the new user's id and username.
+
+Test Login
+Endpoint: POST /auth/login
+Sample Request:
+Use this command to log in with the registered user:
+
+curl -X POST http://localhost:5000/auth/login -H "Content-Type: application/json" -d '{"username": "testuser", "password": "testpassword"}'
+
+What to Expect:
+You should receive a JSON response with a JWT token. Copy the token from the response, as you will use it in the next steps. (Replace TOKEN_HERE in subsequent requests with this token.)
+
+Test Fetching Tasks
+Endpoint: GET /tasks
+Sample Request:
+Use this command to retrieve the list of tasks:
+
+curl -X GET http://localhost:5000/tasks -H "Authorization: Bearer TOKEN_HERE"
+
+What to Expect:
+You should receive a JSON array of tasks. If no tasks have been created yet, the array will be empty.
+
+Test Creating a Task
+Endpoint: POST /tasks
+Sample Request:
+Use this command to create a new task:
+
+curl -X POST http://localhost:5000/tasks -H "Content-Type: application/json" -H "Authorization: Bearer TOKEN_HERE" -d '{"title": "Sample Task", "description": "This is a sample task description."}'
+
+What to Expect:
+You should receive a JSON response containing the details of the newly created task.
+
+Test Updating a Task
+Assume the task created above has an id of 1.
+Endpoint: PUT /tasks/1
+Sample Request:
+Use this command to update the task:
+
+curl -X PUT http://localhost:5000/tasks/1 -H "Content-Type: application/json" -H "Authorization: Bearer TOKEN_HERE" -d '{"title": "Updated Task Title", "description": "Updated description", "isComplete": true}'
+
+What to Expect:
+You should receive a JSON response with the updated details of the task.
+
+Test Deleting a Task
+Endpoint: DELETE /tasks/1
+Sample Request:
+Use this command to delete the task:
+
+curl -X DELETE http://localhost:5000/tasks/1 -H "Authorization: Bearer TOKEN_HERE"
+
+What to Expect:
+You should receive a JSON message indicating that the task has been deleted (for example, {"message": "Task deleted"}).
+
+Notes:
+
+Replace TOKEN_HERE in each command with the actual JWT token you received from the login request.
+You can run these curl commands in your terminal. Alternatively, you may use API testing tools such as Postman to test these endpoints.
+Ensure that your backend server is running on port 5000 before executing these commands.
